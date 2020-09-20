@@ -1,0 +1,7 @@
+#cloud-config
+hostname: csgovm1
+package_upgrade: true
+packages:
+    - git
+    - puppet-common
+    - dos2unix

@@ -1,5 +1,12 @@
 Puppet bootstrap for Cloud-Init Instances
 
+Part of AWS bootstrap is installing the puppet-common package, first thing is to copy the default /etc/puppet directory to /etc/puppet.orig.  This way git can copy data to /etc/puppy.  Git will only write to an empty directory.
+
+	#move default /etc/puppet directory
+	mv /etc/puppet /etc/puppet.orig
+    #git clone repo to /etc/puppet/
+	git clone GITLAB_REPO /etc/puppet
+
 Current GitHub aws.git repo contains 2 folders, “manifests” and “files” as well as the *_bootstrap.txt file.
 
 The *_bootstrap.txt file is copy and pasted into Advanced section during provisioning.  

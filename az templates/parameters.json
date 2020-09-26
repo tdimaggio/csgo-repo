@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_csgo001_name": {
+            "value": null
+        },
+        "disks_csgo001_disk1_9d552f18ed634d2a9679d593f23072d9_externalid": {
+            "value": null
+        },
+        "disks_csgo001_DataDisk_0_externalid": {
+            "value": null
+        },
+        "networkInterfaces_csgo001885_externalid": {
+            "value": null
+        }
+    }
+}

@@ -1,0 +1,106 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_csgo001_name": {
+            "defaultValue": "csgo001",
+            "type": "String"
+        },
+        "disks_csgo001_disk1_9d552f18ed634d2a9679d593f23072d9_externalid": {
+            "defaultValue": "/subscriptions/bb163818-b8ff-4c2e-91d5-afe5ff7daf31/resourceGroups/CLOUDINIT/providers/Microsoft.Compute/disks/csgo001_disk1_9d552f18ed634d2a9679d593f23072d9",
+            "type": "String"
+        },
+        "disks_csgo001_DataDisk_0_externalid": {
+            "defaultValue": "/subscriptions/bb163818-b8ff-4c2e-91d5-afe5ff7daf31/resourceGroups/cloudinit/providers/Microsoft.Compute/disks/csgo001_DataDisk_0",
+            "type": "String"
+        },
+        "networkInterfaces_csgo001885_externalid": {
+            "defaultValue": "/subscriptions/bb163818-b8ff-4c2e-91d5-afe5ff7daf31/resourceGroups/cloudinit/providers/Microsoft.Network/networkInterfaces/csgo001885",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "name": "[parameters('virtualMachines_csgo001_name')]",
+            "location": "eastus",
+            "tags": {
+                "Environment": "dev",
+                "Role": "CSGO Server",
+                "Owner": "Tony"
+            },
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B2s"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "18.04-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_csgo001_name'), '_disk1_9d552f18ed634d2a9679d593f23072d9')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_csgo001_disk1_9d552f18ed634d2a9679d593f23072d9_externalid')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_csgo001_name'), '_DataDisk_0')]",
+                            "createOption": "Attach",
+                            "caching": "None",
+                            "writeAcceleratorEnabled": false,
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS",
+                                "id": "[parameters('disks_csgo001_DataDisk_0_externalid')]"
+                            },
+                            "diskSizeGB": 32,
+                            "toBeDetached": false
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_csgo001_name')]",
+                    "adminUsername": "csgo",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/csgo/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpEWnK5VQyBxPQQjxt6LRdjslvS/GdWXNgQ1HFCIWoLWaIjn4h3oncTr1Slp8L/Y+oSAqSrK8OkToP4JURpBLMM8g0qf1pGEAa+4jHk7ZTIUc5CqeLR5bw6h2HvvnsiaLlcKskDB5ChMtcynYjpAWmZOs4Atmlpe2jN35ZkXftko5yQPaGZ6CcwBx0rXk2+mv/VemgXDriilFqct/PKuA69/sZFyyS6Jyfr6BzqftCdd6JtH7sVESHkK4H4wvEGJf/ImYF3XIvxoaE+bQ1V6G3bZh5KwjPGmWpREr2onNlstnoyE5YbF0oGwSiPmYcqOAh1282rQJs3OMSl7qbS3J9"
+                                }
+                            ]
+                        },
+                        "provisionVMAgent": true
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_csgo001885_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}
